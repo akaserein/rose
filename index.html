@@ -1,51 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Rose Cursor Follow Animation</title>
-<style>
-  body, html {
-    margin: 0;
-    height: 100%;
-    overflow: hidden;
-    cursor: none;
-    background-color: #fce4ec;
-  }
-  #rose {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    pointer-events: none;
-    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Rose_icon.svg/1024px-Rose_icon.svg.png') no-repeat center center;
-    background-size: contain;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s ease-out;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rose Cursor Follower</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #2d1b69 100%);
+            overflow: hidden;
+            cursor: none;
+            position: relative;
+        }
+
+        .rose-container {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .rose {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            transform-origin: center;
+            animation: rotate 8s linear infinite;
+        }
+
+        .rose-petals {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .petal {
+            position: absolute;
+            background: radial-gradient(ellipse at center, #ff6b9d 0%, #c44569 40%, #8e2450 100%);
+            border-radius: 50% 10% 50% 10%;
+            transform-origin: bottom center;
+        }
+
+        .petal:nth-child(1) {
+            width: 20px;
+            height: 30px;
+            transform: rotate(0deg) translateY(-15px);
+        }
+
+        .petal:nth-child(2) {
+            width: 18px;
+            height: 28px;
+            transform: rotate(45deg) translateY(-14px);
+        }
+
+        .petal:nth-child(3) {
+            width: 20px;
+            height: 30px;
+            transform: rotate(90deg) translateY(-15px);
+        }
+
+        .petal:nth-child(4) {
+            width: 18px;
+            height: 28px;
+            transform: rotate(135deg) translateY(-14px);
+        }
+
+        .petal:nth-child(5) {
+            width: 20px;
+            height: 30px;
+            transform: rotate(180deg) translateY(-15px);
+        }
+
+        .petal:nth-child(6) {
+            width: 18px;
+            height: 28px;
+            transform: rotate(225deg) translateY(-14px);
+        }
+
+        .petal:nth-child(7) {
+            width: 20px;
+            height: 30px;
+            transform: rotate(270deg) translateY(-15px);
+        }
+
+        .petal:nth-child(8) {
+            width: 18px;
+            height: 28px;
+            transform: rotate(315deg) translateY(-14px);
+        }
+
+        .rose-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #ffeb3b 0%, #ff9800 50%, #ff5722 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+        }
+
+        .rose-stem {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(to bottom, #4caf50, #2e7d32);
+            border-radius: 2px;
+        }
+
+        .leaf {
+            position: absolute;
+            bottom: -20px;
+            width: 8px;
+            height: 12px;
+            background: linear-gradient(45deg, #66bb6a, #388e3c);
+            border-radius: 0 100% 0 100%;
+        }
+
+        .leaf.left {
+            left: -6px;
+            transform: rotate(-30deg);
+        }
+
+        .leaf.right {
+            right: -6px;
+            transform: rotate(30deg);
+        }
+
+        .trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, rgba(255, 107, 157, 0.6), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fade 1s ease-out forwards;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fade {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            animation: sparkle 0.8s ease-out forwards;
+        }
+
+        .sparkle::before {
+            content: '✨';
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) rotate(360deg);
+            }
+        }
+
+        .instructions {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+            z-index: 100;
+        }
+    </style>
 </head>
 <body>
-  <div id="rose"></div>
-  <script>
-    const rose = document.getElementById('rose');
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let roseX = mouseX;
-    let roseY = mouseY;
-    const speed = 0.1;
+    <div class="instructions">
+        Move your cursor to see the rose follow you ✨
+    </div>
 
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
+    <div class="rose-container" id="roseContainer">
+        <div class="rose">
+            <div class="rose-petals">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+            </div>
+            <div class="rose-center"></div>
+            <div class="rose-stem">
+                <div class="leaf left"></div>
+                <div class="leaf right"></div>
+            </div>
+        </div>
+    </div>
 
-    function animate() {
-      roseX += (mouseX - roseX) * speed;
-      roseY += (mouseY - roseY) * speed;
-      rose.style.transform = `translate(${roseX}px, ${roseY}px) translate(-50%, -50%)`;
-      requestAnimationFrame(animate);
-    }
-    animate();
-  </script>
+    <script>
+        const roseContainer = document.getElementById('roseContainer');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let currentX = mouseX;
+        let currentY = mouseY;
+
+        // Initialize rose position
+        roseContainer.style.left = currentX + 'px';
+        roseContainer.style.top = currentY + 'px';
+
+        // Track mouse movement
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Smooth following animation
+        function animateRose() {
+            // Smooth interpolation for following effect
+            currentX += (mouseX - currentX) * 0.08;
+            currentY += (mouseY - currentY) * 0.08;
+
+            roseContainer.style.left = currentX + 'px';
+            roseContainer.style.top = currentY + 'px';
+
+            requestAnimationFrame(animateRose);
+        }
+
+        // Trail effect
+        function createTrail() {
+            const trail = document.createElement('div');
+            trail.className = 'trail';
+            trail.style.left = currentX + 'px';
+            trail.style.top = currentY + 'px';
+            document.body.appendChild(trail);
+
+            setTimeout(() => {
+                document.body.removeChild(trail);
+            }, 1000);
+        }
+
+        // Sparkle effect on click
+        document.addEventListener('click', (e) => {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = (e.clientX + (Math.random() - 0.5) * 40) + 'px';
+                    sparkle.style.top = (e.clientY + (Math.random() - 0.5) * 40) + 'px';
+                    document.body.appendChild(sparkle);
+
+                    setTimeout(() => {
+                        document.body.removeChild(sparkle);
+                    }, 800);
+                }, i * 100);
+            }
+        });
+
+        // Start animations
+        animateRose();
+
+        // Create trail periodically
+        setInterval(createTrail, 100);
+    </script>
 </body>
 </html>
