@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rose Cursor Follow Animation</title>
+<style>
+  body, html {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    cursor: none;
+    background-color: #fce4ec;
+  }
+  #rose {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    pointer-events: none;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Rose_icon.svg/1024px-Rose_icon.svg.png') no-repeat center center;
+    background-size: contain;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out;
+  }
+</style>
+</head>
+<body>
+  <div id="rose"></div>
+  <script>
+    const rose = document.getElementById('rose');
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let roseX = mouseX;
+    let roseY = mouseY;
+    const speed = 0.1;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animate() {
+      roseX += (mouseX - roseX) * speed;
+      roseY += (mouseY - roseY) * speed;
+      rose.style.transform = `translate(${roseX}px, ${roseY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
